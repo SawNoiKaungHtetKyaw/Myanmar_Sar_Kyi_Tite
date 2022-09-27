@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
-  var tabIndex = 0;
-  void changeTabIndex(int index) {
-    tabIndex = index;
+  var tabIndex = 0.obs;
+  void changeTabIndex(var index) {
+    tabIndex.value = index;
     update();
   }
 }

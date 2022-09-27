@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:myanmar_sar_kyi_tite/helpers/constants.dart';
 import 'package:myanmar_sar_kyi_tite/pages/about.dart';
+import 'package:myanmar_sar_kyi_tite/pages/author_info.dart';
 import 'package:myanmar_sar_kyi_tite/pages/authors.dart';
+import 'package:myanmar_sar_kyi_tite/pages/book_info.dart';
 import 'package:myanmar_sar_kyi_tite/pages/books.dart';
 import 'package:myanmar_sar_kyi_tite/pages/home.dart';
 import 'package:myanmar_sar_kyi_tite/pages/library.dart';
@@ -22,24 +24,24 @@ class _MyDashBoardState extends State<MyDashBoard> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
-      init: DashboardController(),
       builder: (controller) {
         return Scaffold(
             body: IndexedStack(
-              index: controller.tabIndex,
+              index: controller.tabIndex.value,
               children: const [
                 Home(),
-                // Authors(),
-                Register(),
+                Authors(),
                 Books(),
                 Library(),
-                About(),
+                About()
+                // AuthorInfo()
+                // BookInfo()
               ],
             ),
             bottomNavigationBar: CustomAnimatedBottomBar(
               containerHeight: 50.h,
               backgroundColor: Constants.text_white,
-              selectedIndex: controller.tabIndex,
+              selectedIndex: controller.tabIndex.value,
               showElevation: true,
               itemCornerRadius: 24.r,
               curve: Curves.easeIn,

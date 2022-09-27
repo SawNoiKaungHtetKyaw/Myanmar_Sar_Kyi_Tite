@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:myanmar_sar_kyi_tite/controller/author_controller.dart';
+import 'package:myanmar_sar_kyi_tite/controller/dashboard_controller.dart';
 import 'package:myanmar_sar_kyi_tite/helpers/constants.dart';
 import 'package:myanmar_sar_kyi_tite/helpers/custom_widget.dart';
+import 'package:myanmar_sar_kyi_tite/pages/author_info.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,12 +16,16 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+final DashboardController dashboardController = Get.find();
+final AuthorController authorController = Get.find();
+
 class _HomeState extends State<Home> {
   TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     CustomWidget customWidget = CustomWidget();
     return Scaffold(
+      backgroundColor: Constants.bg_grey,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -112,11 +120,16 @@ class _HomeState extends State<Home> {
                                   Constants.titleText,
                                   Constants.normal,
                                   FontWeight.bold),
-                              customWidget.textWidget(
-                                  "See all",
-                                  Constants.smallText,
-                                  Constants.hint,
-                                  FontWeight.w400)
+                              InkWell(
+                                onTap: () {
+                                  dashboardController.changeTabIndex(1);
+                                },
+                                child: customWidget.textWidget(
+                                    "See all",
+                                    Constants.smallText,
+                                    Constants.hint,
+                                    FontWeight.w400),
+                              )
                             ],
                           ),
                           SizedBox(
@@ -150,11 +163,16 @@ class _HomeState extends State<Home> {
                                   Constants.titleText,
                                   Constants.normal,
                                   FontWeight.bold),
-                              customWidget.textWidget(
-                                  "See all",
-                                  Constants.smallText,
-                                  Constants.hint,
-                                  FontWeight.w400)
+                              GestureDetector(
+                                onTap: () {
+                                  dashboardController.changeTabIndex(2);
+                                },
+                                child: customWidget.textWidget(
+                                    "See all",
+                                    Constants.smallText,
+                                    Constants.hint,
+                                    FontWeight.w400),
+                              )
                             ],
                           ),
                           SizedBox(
@@ -166,7 +184,7 @@ class _HomeState extends State<Home> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: Constants.books.length,
                                 itemBuilder: (context, index) => customWidget
-                                    .bookCard(index, Constants.books)),
+                                    .bookCard(index, Constants.books, 10.w)),
                           )
                         ],
                       ),
@@ -185,18 +203,13 @@ class _HomeState extends State<Home> {
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               customWidget.textWidget(
                                   "You may also like",
                                   Constants.titleText,
                                   Constants.normal,
                                   FontWeight.bold),
-                              customWidget.textWidget(
-                                  "See all",
-                                  Constants.smallText,
-                                  Constants.hint,
-                                  FontWeight.w400)
                             ],
                           ),
                           SizedBox(
@@ -227,36 +240,45 @@ class _HomeState extends State<Home> {
   }
 
   Widget _authorCard(index, author) {
-    return Container(
-      width: 85.w,
-      height: 110.h,
-      margin: EdgeInsets.only(right: 10.w),
-      decoration: BoxDecoration(
-          border: Border.all(color: Constants.primary),
-          borderRadius: BorderRadius.circular(10.r)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          //Image
-          Container(
-            width: 75.w,
-            height: 75.h,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage(author[index].image), fit: BoxFit.cover)),
-          ),
-          Text(
-            author[index].name,
-            maxLines: 1,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Constants.normal,
-                fontSize: Constants.normalText,
-                fontWeight: FontWeight.w600,
-                overflow: TextOverflow.ellipsis),
-          )
-        ],
+    return InkWell(
+      onTap: () {
+        authorController.authorName.value = author[index].name;
+        authorController.authorImage.value = author[index].image;
+        Get.to(() => AuthorInfo());
+      },
+      child: Container(
+        width: 85.w,
+        height: 110.h,
+        margin: EdgeInsets.only(right: 10.w),
+        decoration: BoxDecoration(
+            color: Constants.text_white,
+            border: Border.all(color: Constants.primary),
+            borderRadius: BorderRadius.circular(10.r)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            //Image
+            Container(
+              width: 75.w,
+              height: 75.h,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: AssetImage(author[index].image),
+                      fit: BoxFit.cover)),
+            ),
+            Text(
+              author[index].name,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Constants.normal,
+                  fontSize: Constants.normalText,
+                  fontWeight: FontWeight.w600,
+                  overflow: TextOverflow.ellipsis),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -26,7 +26,7 @@ class Constants {
     Author(name: "Min Lu", image: "assets/images/minlu.jpg"),
     Author(name: "Chit Oo Nyo", image: "assets/images/Chit Oo Nyo.png"),
     Author(
-        name: "  Journal kyaw Ma Ma Lay",
+        name: "Journal kyaw Ma Ma Lay",
         image: "assets/images/Journal_Kyaw_Ma_Ma_Lay.jpg"),
     Author(name: "Khin Khin Htoo", image: "assets/images/Khin_Khin_Htoo.gif"),
     Author(name: "Mya Than Thint", image: "assets/images/Mya_Than_Tint.jpg"),
@@ -43,6 +43,15 @@ class Constants {
     Book(name: "Twe", image: "assets/bookimages/Twe.jpg"),
     Book(name: "Linkar DiPa Chit Thu", image: "assets/bookimages/linkar.png"),
     Book(name: "BaWa To To", image: "assets/bookimages/BAWaToto.jpg"),
+    Book(name: "Twe", image: "assets/bookimages/Twe.jpg"),
+    Book(name: "Linkar DiPa Chit Thu", image: "assets/bookimages/linkar.png"),
+    Book(name: "BaWa To To", image: "assets/bookimages/BAWaToto.jpg"),
+    Book(name: "Twe", image: "assets/bookimages/Twe.jpg"),
+    Book(name: "Linkar DiPa Chit Thu", image: "assets/bookimages/linkar.png"),
+    Book(name: "BaWa To To", image: "assets/bookimages/BAWaToto.jpg"),
+    Book(name: "Twe", image: "assets/bookimages/Twe.jpg"),
+    Book(name: "Linkar DiPa Chit Thu", image: "assets/bookimages/linkar.png"),
+    Book(name: "BaWa To To", image: "assets/bookimages/BAWaToto.jpg"),
   ];
 
   static List<PersonalInfo> personalInfo = [
@@ -55,5 +64,4 @@ class Constants {
     PersonalInfo(text: PersonalDescription.thaKathoBoneNaing),
     PersonalInfo(text: PersonalDescription.ThaKhinKoThawHmine),
   ];
-
 }

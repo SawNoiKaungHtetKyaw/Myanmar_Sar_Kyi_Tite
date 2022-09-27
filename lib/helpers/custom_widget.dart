@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:myanmar_sar_kyi_tite/controller/book_controller.dart';
+import 'package:myanmar_sar_kyi_tite/pages/book_info.dart';
 
+import '../controller/author_controller.dart';
+import '../pages/author_info.dart';
 import 'constants.dart';
+
+BookController bookController = Get.find<BookController>();
+AuthorController authorController = Get.find<AuthorController>();
 
 class CustomWidget {
   Widget textWidget(
@@ -35,6 +43,8 @@ class CustomWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
+          fillColor: Constants.text_white,
+          filled: true,
           hintText: "Search",
           hintStyle: TextStyle(
               fontWeight: FontWeight.w400, fontSize: Constants.normalText),
@@ -52,41 +62,48 @@ class CustomWidget {
     );
   }
 
-  Widget bookCard(index, book) {
-    return Padding(
-      padding: EdgeInsets.only(right: 10.w),
-      child: Column(
-        children: [
-          Container(
-            width: 100.w,
-            height: 140.h,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(8.r),
-                  bottomRight: Radius.circular(8.r),
-                ),
-                image: DecorationImage(
-                    image: AssetImage(book[index].image), fit: BoxFit.fill)),
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-
-          //book title
-          SizedBox(
-            width: 100.w,
-            child: Text(
-              "${Constants.books[index].name}",
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: TextStyle(
-                  color: Constants.normal,
-                  fontWeight: FontWeight.w600,
-                  fontSize: Constants.normalText),
+  Widget bookCard(index, book, double right) {
+    return GestureDetector(
+      onTap: () {
+        bookController.bookName.value = book[index].name.toString();
+        bookController.bookImage.value = book[index].image.toString();
+        Get.to(() => BookInfo());
+      },
+      child: Padding(
+        padding: EdgeInsets.only(right: right),
+        child: Column(
+          children: [
+            Container(
+              width: 100.w,
+              height: 140.h,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(8.r),
+                    bottomRight: Radius.circular(8.r),
+                  ),
+                  image: DecorationImage(
+                      image: AssetImage(book[index].image), fit: BoxFit.fill)),
             ),
-          )
-        ],
+            SizedBox(
+              height: 5.h,
+            ),
+
+            //book title
+            SizedBox(
+              width: 100.w,
+              child: Text(
+                "${Constants.books[index].name}",
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(
+                    color: Constants.normal,
+                    fontWeight: FontWeight.w600,
+                    fontSize: Constants.normalText),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -166,7 +183,13 @@ class CustomWidget {
                           primary: Constants.primary,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.r))),
-                      onPressed: () {},
+                      onPressed: () {
+                        bookController.bookName.value =
+                            book[index].name.toString();
+                        bookController.bookImage.value =
+                            book[index].image.toString();
+                        Get.to(() => BookInfo());
+                      },
                       child: textWidget("Read Now", Constants.normalText,
                           Constants.text_white, FontWeight.bold),
                     ),
@@ -180,7 +203,79 @@ class CustomWidget {
     );
   }
 
-  Widget bottomNavBar() {
-    return BottomNavigationBar(items: []);
+  Widget authorCard(index, author) {
+    return Container(
+      width: double.infinity,
+      height: 135.h,
+      decoration: BoxDecoration(
+          color: Constants.text_white,
+          border: Border.all(color: Constants.primary, width: 2.w),
+          borderRadius: BorderRadius.all(Radius.circular(20.r))),
+      child: Padding(
+        padding: EdgeInsets.all(10.sm),
+        child: Row(
+          children: [
+            ClipOval(
+              child: SizedBox(
+                width: 100.r,
+                height: 100.r,
+                child: Image.asset(
+                  "${author[index].image}",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 10.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textWidget(author[index].name, Constants.normalText,
+                        Constants.normal, FontWeight.bold),
+                    Text(
+                      "${Constants.personalInfo[index].text}",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textScaleFactor: 0.65.sp,
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(
+                        height: 30.h,
+                        width: 150.w,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Constants.primary,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.r))),
+                            onPressed: () {
+                              authorController.authorName.value =
+                                  author[index].name;
+                              authorController.authorImage.value =
+                                  author[index].image;
+                              Get.to(() => AuthorInfo());
+                            },
+                            child: Text(
+                              "More Info",
+                              style: TextStyle(fontSize: 12.sp),
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
